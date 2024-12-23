@@ -2,7 +2,7 @@
   <div class="navbar bg-base-100">
     <div class="navbar-start">
       <!-- JUDUL -->
-      <a class="btn btn-ghost text-xl font-IBM">Cafe Finder</a>
+      <p class="btn btn-ghost text-xl font-IBM"><router-link to="/home">Cafe Finder</router-link></p>
     </div>
     <div class="navbar-center hidden lg:flex">
         <!-- PC -->

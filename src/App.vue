@@ -1,9 +1,9 @@
 <template>
   <div>
     <web-navbar v-if="$route.name!='landing'"/>
-    <transition name="fade">
+    <!-- <transition name="fade"> -->
       <RouterView />
-    </transition>
+    <!-- </transition> -->
   </div>
 </template>
 

@@ -2,9 +2,9 @@
   <div>
     <p>about</p>
   </div>
-  </template>
+</template>
   
-  <script setup>
-  
-  </script>
+<script setup>
+
+</script>
   
