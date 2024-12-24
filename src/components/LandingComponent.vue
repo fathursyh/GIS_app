@@ -2,7 +2,6 @@
   <main>
     <div class="hero min-h-screen bg-[url('/landing_bg.jpg')]">
       <div class="hero-overlay bg-opacity-80"></div>
-      <aos-vue animation="fade" :delay="500" :duration="600" :once="true">
         <div class="hero-content text-white text-center">
           <div class="max-w-md">
             <h1 class="mb-5 text-5xl font-bold font-IBM">Cafe Finder</h1>
@@ -17,7 +16,6 @@
             </router-link>
           </div>
         </div>
-      </aos-vue>
     </div>
   </main>
 </template>

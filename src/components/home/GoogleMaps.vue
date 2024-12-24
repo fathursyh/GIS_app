@@ -1,19 +1,25 @@
 <template>
-  <div>
+  <div class="max-h-[90vh] overflow-hidden">
     <GoogleMap
       ref="maps"
       :api-key="maps_api"
-      style="width: 100%; height: 500px"
+      style="width: 100%;"
+      :style="`height: ${mapHeight}`"
       :center="state.mapCenter"
+      :clickableIcons="false"
       :zoom="15"
       :streetViewControl="false"
       :mapTypeControl="false"
       :fullscreenControl="false"
       :mapId="'map'"
+      @dragstart="mapHeight = '90vh'"
+      @dragend="mapHeight = '50vh'"
+      class="transition-all duration-150 ease-in-out"
     >
       <MarkerCluster>
         <AdvancedMarker
-          v-for="(location, i) in cafePlaces"
+        v-for="(location, i) in cafePlaces"
+        @click="$emit('clickMarker', i)"
           :key="i"
           :options="{
             position: location.location,
@@ -32,11 +38,14 @@ import { useState } from "@/stores/state";
 import { computed, ref, watch } from "vue";
 import { GoogleMap, MarkerCluster, AdvancedMarker } from "vue3-google-map";
 
+defineEmits(['clickMarker']);
+
 const state = useState();
 const cafePlaces = computed(()=>{
   return state.cafeData;
 });
 const maps = ref(null);
+const mapHeight = ref('50vh');
 
 const fetchCafePlaces = async () => {
   const { Place, SearchNearbyRankPreference } = await maps.value.api.importLibrary(
@@ -45,7 +54,7 @@ const fetchCafePlaces = async () => {
 
   const request = {
     // required parameters
-    fields: ["id", "displayName", "location", "formattedAddress", "rating"],
+    fields: ["displayName", "location", "formattedAddress", "rating", "reviews"],
     locationRestriction: {
       center: state.mapCenter,
       radius: 800,
