@@ -1,23 +1,47 @@
 <template>
   <div class="max-h-[90vh] overflow-hidden">
     <transition name="fade">
-      <GoogleMap v-if="!isFetching" ref="maps" :api-key="api" style="width: 100%" :style="`height: ${mapHeight}`"
-      :center="state.mapCenter" :clickableIcons="false" :zoom="15" :streetViewControl="false" :mapTypeControl="false"
-      :fullscreenControl="false" :mapId="'map'" :min-zoom="15" :max-zoom="18" :restriction="restriction"
-      @dragstart="mapHeight = '90vh'" @dragend="mapHeight = '50vh'" class="transition-all duration-150 ease-in-out">
-      <MarkerCluster>
-        <AdvancedMarker v-for="(location, i) in cafePlaces" @click="$emit('clickMarker', i)" :key="i" :options="{
-          position: location.location,
-          title: location.displayName,
-          gmpClickable: true,
-        }" />
-      </MarkerCluster>
-    </GoogleMap>
-    <div class="absolute h-[90vh] w-screen flex justify-center items-center" v-else>
-      <span class="loading loading-spinner loading-lg"></span>
-    </div>
+      <GoogleMap
+        v-if="!isFetching"
+        ref="maps"
+        :api-key="api"
+        style="width: 100%"
+        :style="`height: ${mapHeight}`"
+        :center="state.mapCenter"
+        :clickableIcons="false"
+        :zoom="15"
+        :streetViewControl="false"
+        :mapTypeControl="false"
+        :fullscreenControl="false"
+        :mapId="'map'"
+        :draggable="true"
+        :min-zoom="15"
+        :max-zoom="18"
+        :restriction="restriction"
+        @dragstart="mapHeight = '60vh'"
+        @dragend="mapHeight = '50vh'"
+        class="transition-all duration-150 ease-in-out"
+      >
+        <MarkerCluster>
+          <AdvancedMarker
+            v-for="(location, i) in cafePlaces"
+            @click="$emit('clickMarker', i)"
+            :key="i"
+            :options="{
+              position: location.location,
+              title: location.displayName,
+              gmpClickable: true,
+            }"
+          />
+        </MarkerCluster>
+      </GoogleMap>
+      <div
+        class="absolute h-[90vh] w-screen flex justify-center items-center"
+        v-else
+      >
+        <span class="loading loading-spinner loading-lg"></span>
+      </div>
     </transition>
-
   </div>
 </template>
 
@@ -28,9 +52,9 @@
   const isFetching = ref(true);
   onBeforeMount(async () => {
     try {
-      const res = await fetch('/api/serverless'); // Call the serverless function
+      const res = await fetch("/api/serverless"); // Call the serverless function
       if (!res.ok) {
-        throw new Error('Network response was not ok');
+        throw new Error("Network response was not ok");
       } else {
         state.api = await res.text();
         setTimeout(() => {
@@ -38,14 +62,14 @@
         }, 400);
       }
     } catch (error) {
-      console.error('Error fetching data:', error);
-      this.response = 'Error fetching data';
+      console.error("Error fetching data:", error);
+      this.response = "Error fetching data";
     }
-  })
+  });
   defineEmits(["clickMarker"]);
 
-  const api = computed(()=>{
-      return state.api;
+  const api = computed(() => {
+    return state.api;
   });
 
   const state = useState();
